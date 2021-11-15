@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import '../../index.js';
+
+    const chart = JSON.stringify({
+      header: "Student Grades",
+      width: "500",
+      height: "300"
+    });
+    const axis = JSON.stringify({
+      xTitle: "Grades",
+      yTitle: "Number of Students",
+      yTicks: 10,
+      yMin: 0,
+      yMax: 54
+    });
+    let column = JSON.stringify({
+      data: [0, 0, 1, 3, 10, 22, 53, 38, 27, 15],
+      style: {
+        fill: "var(--d2l-color-celestine)",
+        stroke: "var(--d2l-color-celestine)",
+        spacing: 10,
+        minHeight: 2}
+    });
+    const categories = JSON.stringify({
+      labels: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90"]
+    });
+
+    const selected = new Set();
+
+    const handlePointClick = ({detail: {x, y}}) => {
+      console.log("Clicked a point", x, y);
+      if (selected.has(x)) selected.delete(x);
+      else selected.add(x);
+      const newColumn = JSON.parse(column);
+      newColumn.style.fill = selected.size === 0 ? "var(--d2l-color-celestine)" : Array(10).fill("var(--d2l-color-mica)");
+      selected.forEach(i => {newColumn.style.fill[i] = "var(--d2l-color-celestine)"});
+      newColumn.style.stroke = "";
+      column = JSON.stringify(newColumn);
+      renderPage();
+    };
+
+    const renderPage = () => render(
+      html`
+        <bar-chart
+          @composite-chart-point-click="${handlePointClick}"
+          chart='${chart}'
+          axis='${axis}'
+          column='${column}'
+          categories='${categories}'
+        >
+        </bar-chart>
+      `,
+      document.querySelector('#demo')
+    );
+    renderPage();
+  </script>
+</body>
+</html>
