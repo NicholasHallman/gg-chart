@@ -15,7 +15,17 @@ npm i @brightspaceuilabs/gg-chart
   import 'gg-chart/src/gg-chart.js';
 </script>
 
-<d2l-bar-chart></d2l-bar-chart>
+<gg-chart
+  data='[{"grade": 82, "timeInContent": 78}, ...]'
+  aes="grade, timeInContent"
+  geom="bar"
+  scale='[{"name": "Grades"}, {"name": "Time in Content"}]'
+  stats="ymean"
+  theme="daylight"
+  tooltip="point"
+  width="300"
+  height="250"
+></gg-chart>
 ```
 
 ## Properties
@@ -35,7 +45,7 @@ npm i @brightspaceuilabs/gg-chart
 - `tooltip` : Which elements you want the tooltip to show on, `point`, `area` 
 - `pos` : Where the geoms should be positioned. `stacked`, `dodged`
 - `theme` : The charts styling theme 
-- `legend` : Toggles the legend, `hidden`
+- `legend` : Toggles the legend, `hidden`. Only shows when special aesthetics are used.
 - `data` : The data as a JSON string
 - `width` : The width in pixels
 - `height` : The height in pixels
