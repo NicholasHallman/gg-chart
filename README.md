@@ -1,6 +1,8 @@
 # \<gg-chart>
 
-This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+A lit-element component for creating data visualizations using the Grammar of Graphics.
+
+![screenshot of demo page](docs/all-charts.png)
 
 ## Installation
 
