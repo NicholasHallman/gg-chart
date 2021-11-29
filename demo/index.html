@@ -12,74 +12,292 @@
   <div id="demo"></div>
 
   <script type="module">
-    import { html, render } from 'lit';
-    import '../index.js';
+    import { css, html, render } from 'lit';
+    import { data } from './data.js';
+    import '../src/gg-chart.js';
+    import '@brightspace-ui/core/components/typography/typography';
 
-    let chart = JSON.stringify({
-      header: "Student Grades",
-      width: "500",
-      height: "300"
-    });
-    const axis = JSON.stringify({
-      xTitle: "Grades",
-      yTitle: "Number of Students",
-      yTicks: 10,
-      yMin: 0,
-      yMax: 54
-    });
-    let column = JSON.stringify({
-      data: [0, 0, 1, 3, 10, 22, 53, 38, 27, 15],
-      style: {
-        fill: "car(--d2l-color-celestine)",
-        stroke: "var(--d2l-color-celestine)",
-        spacing: 10,
-        minHeight: 2}
-    });
-    const categories = JSON.stringify({
-      labels: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90"]
-    });
+    const scaleTIC = [
+      {name: 'Grade', lim: [0, 100], breaks: 10},
+      {name: 'Time in Content'}
+    ];
 
-    const handlePointClick = ({detail: {x, y}}) => console.log("Clicked a point", x, y);
+    const scaleCFG = [
+      {name: 'Grades', lim: [0, 100]},
+      {name: 'Number of Students'}
+    ];
 
-    const updateData = (e) => {
-      console.log(e.target.value);
-      column = JSON.stringify({
-        data: e.target.value.split(',').map(v => Number(v))
-      });
-      renderPage();
+    const scaleCFGCategories = [
+      {name: 'Grades', lim: [0, 100], breaks: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100', '']},
+      {name: 'Number of Students'}
+    ];
+
+    const scaleGH = [
+      {name: 'Month' },
+      {name: 'Grade', lim: [0, 100]}
+    ]
+
+    const scalePIE = [
+      {name: 'Grade', breaks: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100', '']},
+      {name: 'Num Students', lim: [0, 50]}
+    ];
+
+    const handleTooltipArea = (areaType, aggr) => {
+      switch (areaType) {
+        case 'topLeft': return `${aggr} students with high time in content and low grades`;
+        case 'topRight': return `${aggr} students with high time in content and high grades`;
+        case 'bottomLeft': return `${aggr} students with low time in content and low grades`;
+        case 'bottomRight': return `${aggr} students with low time in content and high grades`;
+        default: return '';
+      }
     }
 
-    const updateWidth = (e) => {
-      const newChart = JSON.parse(chart);
-      newChart.width = e.target.value;
-      chart = JSON.stringify(newChart);
-      renderPage();
+    const handleTooltipPoint = (point) => {
+      console.log(point);
+      return `${point.aggrid} students received ${point.grade}`
     }
 
-    const updateHeight = (e) => {
-      const newChart = JSON.parse(chart);
-      newChart.height = e.target.value;
-      chart = JSON.stringify(newChart);
-      renderPage();
-    }
+    const renderCharts = () => {
+      const d = data();
+      render(
+        html`
+        <h2 style="font-family: lato"> Regular </h2>
+        <div style="display: flex;">
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, timeInContent"
+            scale="${JSON.stringify(scaleTIC)}"
+            geom="point"
+            stat="xmean ymean"
+            tooltip="area"
 
-    const renderPage = () => render(
-      html`
-        <bar-chart
-          @composite-chart-point-click="${handlePointClick}"
-          chart='${chart}'
-          axis='${axis}'
-          column='${column}'
-          categories='${categories}'
-        >
-        </bar-chart>
-        Data: <input .value="${JSON.parse(column).data.toString()}" @blur=${updateData}></input> <br>
-        Width: <input .value="${JSON.parse(chart).width.toString()}" @blur=${updateWidth}></input> <br>
-        Height: <input .value="${JSON.parse(chart).height.toString()}" @blur=${updateHeight}></input>
-      `,
-      document.querySelector('#demo')
-    );
-    renderPage();
+            @gg-chart-area-click="${({detail: {aggr, areaType}}) => console.log(`area clicked ${areaType} ${aggr}`)}"
+
+            title="Time in Content Vs Grade"
+            theme="daylight"
+            width="400"
+            height="250">
+          </gg-chart>
+          <br>
+
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, id"
+            scale="${JSON.stringify(scaleCFG)}"
+            geom="bar"
+            stat="bin:10 ymean"
+            tooltip="point, area"
+
+            @gg-chart-point-click="${({detail: {point}}) => console.log(`point clicked ${point['grade']} ${point['aggrid']}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="line"
+            stat="ymean"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+        </div>
+
+        <h2 style="font-family: lato"> Flipped </h2>
+        <div style="display: flex;">
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, timeInContent"
+            scale="${JSON.stringify(scaleTIC)}"
+            geom="point"
+            stat="xmean ymean"
+            coord="flip"
+            tooltip="area"
+            .toolTipAreaFormatter="${handleTooltipArea}"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Time in Content Vs Grade"
+            theme="daylight"
+            width="400"
+            height="250">
+          </gg-chart>
+          <br>
+
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, id"
+            scale="${JSON.stringify(scaleCFGCategories)}"
+            geom="bar"
+            stat="bin:10 ymean"
+            coord="flip"
+            tooltip="point"
+            .toolTipPointFormatter="${handleTooltipPoint}"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.break-y { transform: translateY(-7px); } .guide-y { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="line"
+            stat="ymean"
+            coord="flip"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+        </div>
+
+        <h2 style="font-family: lato"> Polar </h2>
+        <div style="display: flex;">
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, timeInContent"
+            scale="${JSON.stringify(scaleTIC)}"
+            geom="point"
+            coord="polar:x"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Time in Content Vs Grade"
+            theme="daylight"
+            width="400"
+            height="250">
+          </gg-chart>
+          <br>
+
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, id"
+            scale="${JSON.stringify(scaleCFG)}"
+            geom="bar"
+            stat="bin:10"
+            coord="polar:y"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.breaky { transform: translateY(-7px)`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="line"
+            coord="polar"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+        </div>
+
+        <h2 style="font-family: lato"> Color Dimension </h2>
+        <div style="display: flex; flex-wrap: wrap;">
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, timeInContent, color(orgId)"
+            scale="${JSON.stringify(scaleTIC)}"
+            geom="point"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Time in Content Vs Grade"
+            theme="daylight"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, id, color(orgId)"
+            scale="${JSON.stringify(scaleCFG)}"
+            geom="bar"
+            stat="bin:10 ymean"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d)}"
+            aes="grade, id, color(orgId)"
+            scale="${JSON.stringify(scaleCFG)}"
+            geom="bar"
+            stat="bin:10 ymean"
+            pos="dodge"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+
+        <gg-chart
+          data="${JSON.stringify(d)}"
+          aes="color(grade)"
+          geom="bar"
+          scale="${JSON.stringify(scalePIE)}"
+          pos="stacked"
+          coord="polar:y"
+          stat="bin:10"
+
+          @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+          title="Final Grades"
+          theme="daylight"
+          style="${css`.guide-x { display: none; } .axis-x {display: none} .axis-y {display: none}`}"
+          width="400"
+          height="250">
+        </gg-chart>
+        </div>
+
+        `,
+        document.querySelector('#demo')
+      );
+    }
+    setInterval(renderCharts, 1000);
+
   </script>
 </body>
 </html>

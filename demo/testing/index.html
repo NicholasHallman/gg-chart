@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { css, html, render } from 'lit';
+    import { data } from '/demo/data.js';
+    import '../../src/gg-chart.js';
+    import '@brightspace-ui/core/components/typography/typography';
+
+    const scaleTIC = [
+      {name: 'Grade', lim: [0, 1], breaks: 1},
+      {name: 'Time in Content'}
+    ];
+
+    const scaleCFG = [
+      {name: 'Grades', lim: [0, 100]},
+      {name: 'Number of Students'}
+    ];
+
+    const scaleCFGCategories = [
+      {name: 'Grade', lim: [0, 100], breaks: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100', '']},
+      {name: 'Number of Students'},
+    ];
+
+    const scaleGH = [
+      {name: 'Month' },
+      {name: 'Grade', lim: [0, 100]}
+    ]
+
+    const scalePIE = [
+      {name: 'Grade', breaks: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100', '']},
+      {name: 'Num Students', lim: [0, 50]}
+    ];
+
+    const d = data();
+    render(
+      html`
+      <gg-chart
+          data="${JSON.stringify(d)}"
+          aes="color(grade)"
+          geom="bar"
+          scale="${JSON.stringify(scalePIE)}"
+          pos="stacked"
+          coord="polar:y"
+          stat="bin:10"
+
+          @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+          title="Final Grades"
+          theme="daylight"
+          style="${css`.guide-x { display: none; } .axis-x {display: none} .axis-y {display: none}`}"
+          width="400"
+          height="250">
+        </gg-chart>
+      `,
+      document.querySelector('#demo')
+      );
+
+  </script>
+</body>
+</html>

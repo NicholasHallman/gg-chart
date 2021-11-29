@@ -1,7 +1,7 @@
 {
-  "name": "composite-chart",
-  "description": "Webcomponent composite-chart following open-wc recommendations",
-  "license": "",
+  "name": "gg-chart",
+  "description": "Web component grammar of graphics chart framework following open-wc recommendations",
+  "license": "Proprietary",
   "author": "D2L",
   "version": "0.0.0",
   "main": "index.js",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@brightspace-ui/core": "^1.204.0",
+    "is-prime": "^1.0.1",
     "lit": "^2.0.2"
   },
   "devDependencies": {
