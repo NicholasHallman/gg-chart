@@ -1,18 +1,18 @@
-# \<d2l-bar-chart>
+# \<gg-chart>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 ## Installation
 
 ```bash
-npm i d2l-bar-chart
+npm i @brightspaceuilabs/gg-chart
 ```
 
 ## Usage
 
 ```html
 <script type="module">
-  import 'd2l-bar-chart/d2l-bar-chart.js';
+  import 'gg-chart/src/gg-chart.js';
 </script>
 
 <d2l-bar-chart></d2l-bar-chart>
@@ -26,17 +26,20 @@ npm i d2l-bar-chart
 
 ### Attributes
 
-- `data` : Array to be displayed
-- `x-header` : Header drawn on the x axis
-- `y-header` : Header drawn on the y axis
-- `color` : Object
-  - `color` : Color for all Bars when no Bars are selected
-  - `active-color` : Color of a Bar when it is selected
-  - `inactive-color` : Color of a Bar when it is not selected
-- `tooltip` : Object
-  - `formatter (Point) -> String` : Callback function that takes the hovered bar's index and returns a tooltip message
-  - `style` : Class overrides for the tooltip
-- `options` : Object (All of the above in JSON)
+- `aes` : The charts aesthetics, keys from the data records in axis order. 0 -> x, 1 -> y
+- `geom` : The visual data representation. `bar`, `line`, `point`
+- `scale` : A JSON string that defines the axis names, limits, and breaks.
+- `stats` : Statistical additions, `xmean`, `ymean`, `bin:{width}`
+- `coord` : Coordinate system, `polar:x`, `polar:y`, `flip`
+- `tooltip` : Which elements you want the tooltip to show on, `point`, `area` 
+- `pos` : Where the geoms should be positioned. `stacked`, `dodged`
+- `theme` : The charts styling theme 
+- `legend` : Toggles the legend, `hidden`
+- `data` : The data as a JSON string
+- `width` : The width in pixels
+- `height` : The height in pixels
+- `.style` : A css object for selective styles.
+
 
 ## Linting and formatting
 
@@ -88,7 +91,6 @@ Proof of Concept
 - [x] Draws headings
 - [x] Accepts data
 - [x] Keyboard navigable
-- [ ] Hovering shows tooltips
-- [ ] Color change when selected
-- [ ] Updates when data changes
-- [ ] Animates when data changes
+- [x] Hovering shows tooltips
+- [x] Updates when data changes
+- [x] Animates when data changes
