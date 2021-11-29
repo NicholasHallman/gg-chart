@@ -22,7 +22,8 @@ npm i @brightspaceuilabs/gg-chart
 
 ### Events
 
-- `@point-click` -> Point : Event is triggered when a bar in the chart is clicked. Parameter is the selected bars index.
+- `@gg-chart-point-click` -> Point : Event is triggered when a point in the chart is clicked. Parameter is the point with its aesthetic values
+- `@gg-chart-area-click` -> Area : Event is triggered when an area in the chart is clicked. Parameter is the point with its aesthetic values
 
 ### Attributes
 
