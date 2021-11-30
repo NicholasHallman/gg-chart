@@ -31,6 +31,44 @@ const renderLines = (points, tooltip) =>
     }
   )}`;
 
+const renderArea = (points, {innerHeight, innerWidth}, tooltip, coord) => {
+
+  const polyPoints = (() => {
+    // initialize the array with the first point in the axis intersection
+    const poly = [];
+    if(coord.polar !== undefined) {
+      poly[0] = `${innerWidth / 2},${innerHeight / 2}`;
+    } else {
+      poly[0] = `0,${innerHeight}`;
+    }
+    return poly;
+  })();
+
+  points.forEach((p, i) => {
+    polyPoints.push(`${p.px},${p.py}`);
+  })
+
+  polyPoints.push(
+    (() => {
+      let lastPoint = '';
+      if(coord.flip !== undefined) {
+        return `0,${points[points.length - 1].py}`;
+      }
+      if(coord.polar !== undefined) {
+        return `${innerWidth / 2},${innerHeight / 2}`;
+      }
+      return `${points[points.length - 1].px},${innerHeight}`
+    })()
+  )
+  return svg`<polyline
+    @mouseenter="${tooltip.point ? tooltip.point : () => {}}"
+    fill="${points[0].color ? points[0].color : 'var(--gg-color-1)'}"
+    class="point line"
+    opacity="0.5"
+    points="${polyPoints.join(' ')}"></polyline>
+  `
+}
+
 
 const renderPolarBar = (p, {innerWidth, innerHeight}, tooltip) => {
   const {theta, r, width, geom, color = 'var(--gg-color-1)', offset} = p;
@@ -124,6 +162,12 @@ const render = (points, sizing, coord, geom, tooltip) => {
   if(geom.includes('point')) return iteratePoints(renderPoint, points, sizing, tooltip);
   if(geom.includes('bar')) return iteratePoints(renderBar, points, sizing, tooltip);
   if(geom.includes('line')) return renderLines(points, sizing, tooltip);
+  if(geom.includes('area')) {
+    return [
+      renderArea(points, sizing, tooltip, coord),
+      renderLines(points, sizing, tooltip)
+    ]
+  }
   return iteratePoints(renderPolarBar, points, sizing, tooltip);
 }
 

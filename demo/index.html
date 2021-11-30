@@ -111,6 +111,22 @@
             width="400"
             height="250">
           </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="area"
+            stat="ymean"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
         </div>
 
         <h2 style="font-family: lato"> Flipped </h2>
@@ -169,6 +185,23 @@
             width="400"
             height="250">
           </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="area"
+            stat="ymean"
+            coord="flip"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
         </div>
 
         <h2 style="font-family: lato"> Polar </h2>
@@ -211,6 +244,22 @@
             aes="date, grade"
             scale="${JSON.stringify(scaleGH)}"
             geom="line"
+            coord="polar"
+
+            @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"
+
+            title="Final Grades"
+            theme="daylight"
+            style="${css`.guide-x { display: none; }`}"
+            width="400"
+            height="250">
+          </gg-chart>
+
+          <gg-chart
+            data="${JSON.stringify(d[0].gradeHistory)}"
+            aes="date, grade"
+            scale="${JSON.stringify(scaleGH)}"
+            geom="area"
             coord="polar"
 
             @ggchart-point-click="${({detail: {x, y}}) => console.log(`point clicked ${x} ${y}`)}"

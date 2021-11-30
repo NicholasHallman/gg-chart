@@ -132,7 +132,6 @@ export const runStats = (host) => {
       .filter(([, a]) => a !== axis)
       .map(([,a]) => a);
     const groupedData = group(data, nonXYAesthetics);
-    console.log("Groups", groupedData, data)
     // bin the groups by the y aesthetic
     const binGroups = groupedData.map(grouping => {
       const calculateBin = k => Math.min(Math.floor(k / stats[axis].binWidth), stats[axis].bins.largestBin);

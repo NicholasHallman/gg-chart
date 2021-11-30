@@ -20,7 +20,7 @@ npm i @brightspaceuilabs/gg-chart
 <gg-chart
   data='[{"grade": 82, "timeInContent": 78}, ...]'
   aes="grade, timeInContent"
-  geom="bar"
+  geom="point"
   scale='[{"name": "Grades"}, {"name": "Time in Content"}]'
   stats="ymean"
   theme="daylight"
