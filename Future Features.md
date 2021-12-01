@@ -12,12 +12,12 @@ ggplot2 could support grouping and showing data by string types. Currently, gg-c
  - If this is not possible (because the difference is prime) increase the maximum value by 1.
  - Use the found reasonable break size to generate the breaks array.
 
-A work around for string categories is to
+Workaround
  - Replace the strings in the data with number id's that increment from 0
  - In the scale, define the breaks array as an array of strings, with the last value an empty string
  - If you are using categories hope that the reasonable breaks system doesn't hide any essential labels.
 
-For strings we could
+Improvement
  - Find out how many unique strings there are in the data and store them in a set.
  - We don't calculate reasonable breaks for strings since they are categories and can't be excluded.
  - Show all the categories on the axis in order of appearance. Otherwise, if the breaks array is defined use it to reference the placement on the axis.
@@ -26,7 +26,7 @@ For strings we could
 
 highcharts seems to have native support for dates somehow. If it sees a date timestamp number it shows a formatted date in the tooltip. gg-chart doesn't do this and would require you to use the tooltip formatter and format the date. Highcharts also has a breaks formatter and places dates on the axis simply by parsing the number which is compatible with how gg-chart would interpret dates (using the existing reasonable breaks detection system). 
 
-Currently to show dates in the axis you would
+Workaround
  - Ensure that dates are stored as a number timestamp in the record
  - Write a function to produce the wanted breaks for the number of days yourself (complicated. prone to failure)
  - Use the tooltip formatter to format the dates to the correct format
@@ -36,21 +36,21 @@ Improvement
  - Give gg-chart a break formatter that takes the current value as input and returns the formatted date (much simpler)
  - Give gg-chart a tooltip formatter that takes the point as input and returns the formatted tooltip string
 
-# Positions (5 - 13)
+# Positions (5 - ?)
 
 Better support for positions across geom types. Currently the only supported positions are `stacked` and `dodged` for bar charts which produce the stacked bar chart and dodged bar chart respectively. It would be useful for the default position to be `Neither` instead of `stacked` so that line charts can show multiple different data groups in one plot. E.g. Grade Trends in Learner Engagement
 
 AQ
- - Change the default pos to none
- - Allow other geoms to render grouped data.
- - Allow other geoms to render stacked data (stacked area charts)
- - Allow other geoms to render dodged data (dodged box and whisker plot) (???)
+ - Change the default pos to none (1)
+ - Allow other geoms to render grouped data. (1)
+ - Allow other geoms to render stacked data (stacked area charts) (1)
+ - Allow other geoms to render dodged data (dodged box and whisker plot) (?)
 
 # Accessibility
 
-Accessibility is crucial to our goals at D2L for helping the world learn. Part of that mission is making sure that everyone has the same access to information and it is our job to remove those barriers. Leveraging keyboard controls and screen readers is a goo first step to implementing accessibility in gg-chart to ensure compatibility with Highcharts.
+Accessibility is crucial to our goals at D2L for helping the world learn. Part of that mission is making sure that everyone has the same access to information and it is our job to remove those barriers. Leveraging keyboard controls and screen readers is a good first step to implementing accessibility in gg-chart to ensure compatibility with Highcharts which is used currently.
 
-### Stage 1 (5)
+### Stage 1 AQ (5)
  - Aria Labels
    - Chart component label will read the title, and names of the x and y axis along with any other groupings
      - `Time in Content vs Grade. X Grades, Y Time in Content`
@@ -75,18 +75,16 @@ Accessibility is crucial to our goals at D2L for helping the world learn. Part o
 
 ### Stage 2 
 
-Proposal: Charts as applications inside a document flow.
+Planning on working closely with UX to understand their goals in a "Better than Highcharts" accessible system.
 
-The hope with stage 2 is we can provide tools that allow screen reader and keyboard navigators the ability to summaries the data by giving them quick access to statistically important data points.
-  - Provide keyboard shortcuts that communicate additional points of interest for the chart
-  - Chart component will now read the title, aesthetics, and any additional statistical features the chart uses.
-    - x: Focuses the x axis
-    - y: Focuses the y axis
-    - t: Reads the trend in the data for line of best fit (up, down, flat)
-    - a: Focuses the max value for the focused axis (xa focuses the largest value on the x axis, reading that points label)
-    - i: Focuses the min value for the focused axis (xi focuses the smallest value on the x axis, reading that points label)
+One possibility is to use the grammar terms to project data, not into a visual point, but into spoken language that summarizes the story of the chart. Charts are often used to show data a certain way to illustrate a point.
 
-Planning on working closely with UX to understand their goals in a "Better than highcharts" accessible system. 
+ - For standard deviations, what is the skew?
+ - For Histograms, which is the largest of smallest bin? What is the difference between the mean bin and the largest or smallest?
+ - For line charts, is there a trend? up, down or flat?
+ - For area charts, where is a data group the largest? Is that large relative to the other groups?  
+
+Different charts are chosen for different reasons. Understanding what those reasons are and how each chart communicates it's message is crucial for communicating that story to non visual users. This would allow us to set good defaults for communicating the message of the chart. However, we should also offer tooling that allows developers to pick or change the messaging if their use case is unusual or novel. 
 
 # Testing (5)
 
@@ -124,13 +122,19 @@ Visual Diff
  - Pie chart
  - Scatter plot
 
-# Optimization (5)
+# Known bugs
+These should be fixed before the component is shared widely to give confidence in it's polish and stability.
+ - Pie chart NaN bug. [Major]
+ - Pie chart visual flickering. [Minor]
+ - Grouping complications
+# None Crucial Nice-to-Haves
+## Optimization (5)
  - Run the performance observer in dev tools and find long running scripts. (Spike)
  - Add the ability to add the data as an attribute instead of copying it.
  - Create a sub object inside the host to store the original attributes and modify a main object instead of deep copying the host between pipeline steps.
  - Detect when a tooltip property is updated, and if it is, don't rerun the pipeline.
 
-# Prefabs (13)
+## Prefabs (13)
 
 It would be great to have some prebuilt chart types that developers can just import. E.g
 ```javascript
@@ -155,7 +159,3 @@ charts and offer them as imports through the library like
 
 `import '@brightspaceuilabs/gg-chart/prefabs/row.js'` 
 
-# Known bugs
- - Pie chart NaN bug. [Major]
- - Pie chart visual flickering. [Minor]
- - Grouping complications
