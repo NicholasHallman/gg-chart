@@ -50,7 +50,6 @@ const renderArea = (points, {innerHeight, innerWidth}, tooltip, coord) => {
 
   polyPoints.push(
     (() => {
-      let lastPoint = '';
       if(coord.flip !== undefined) {
         return `0,${points[points.length - 1].py}`;
       }
