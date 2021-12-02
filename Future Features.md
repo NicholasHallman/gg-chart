@@ -46,7 +46,7 @@ AQ
  - Allow other geoms to render stacked data (stacked area charts) (1)
  - Allow other geoms to render dodged data (dodged box and whisker plot) (?)
 
-# Accessibility
+# Accessibility (5 - ?)
 
 Accessibility is crucial to our goals at D2L for helping the world learn. Part of that mission is making sure that everyone has the same access to information and it is our job to remove those barriers. Leveraging keyboard controls and screen readers is a good first step to implementing accessibility in gg-chart to ensure compatibility with Highcharts which is used currently.
 
@@ -73,7 +73,7 @@ Accessibility is crucial to our goals at D2L for helping the world learn. Part o
        - In Grades over Time, up and down move between courses, left and right move between days in a course.
    - Legend labels are arrow key navigable.
 
-### Stage 2 
+### Stage 2 (?)
 
 Planning on working closely with UX to understand their goals in a "Better than Highcharts" accessible system.
 
@@ -91,27 +91,27 @@ Different charts are chosen for different reasons. Understanding what those reas
 Currently there are no tests that guarantee the consistent behavior of charts or the outcome of a grammar term. 
 
 Unit tests
- - Aes parser
- - Coord parser
- - Pos parser
- - Scale
+ - Aes parser (1)
+ - Coord parser (1)
+ - Pos parser (1)
+ - Scale (1)
    - Should create limits if they don't exist
    - Should create breaks if they don't exist
    - Should not calculate limits if they are given
    - Should not calculate breaks if they are given
- - Stats
+ - Stats (1)
    - Should parse properly
    - Should calculate xmean if specified
    - Should calculate ymean if specified
    - Should calculate area aggregates when xmean or ymean are defined
    - Should calculate bins when a bin width is given
- - Coord
+ - Coord (1)
    - Should parse properly
    - Should flip aes if flip is defined
    - Should parse records into points when polar is defined
    - Should calculate X as theta when polar X is defined
    - Should calculate Y as theta when polar Y is defined
- - Prefabs
+ - Prefabs (1)
    - Should pass accessibility tests
 
 Visual Diff

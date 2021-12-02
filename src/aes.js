@@ -35,6 +35,10 @@ const parse = (prop) => {
 
 
 export const runAes = (host) => {
+  if(host.aes === undefined || host.aes === "") {
+    host.aes = [];
+    return host;
+  };
   const { parsedAes, copySpecial } = parseAes(host.aes);
 
   host.aes = parsedAes;
