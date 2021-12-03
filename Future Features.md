@@ -6,9 +6,9 @@ Currently gg-chart support a reasonable number of features but has some limitati
 
 ## Strings (1)
 
-ggplot2 could support grouping and showing data by string types. Currently, gg-chart supports grouping by strings but has not good way of showing string data on the axis due to the way that the axis calculate defaults. Currently axis are calculated by
+ggplot2 could support grouping and showing data by string types. Currently, gg-chart supports grouping by strings but has no good way of showing string data on the axis due to the way that the axis calculate defaults. Currently axis are calculated by
  - Finding the minimum and maximum value in an aesthetic (Impossible with strings)
- - Finding the difference between those and the finding a number between 2 and 10 the can evenly divide the difference
+ - Finding the difference between the limits and then finding a number between 2 and 10 that can be evenly divided by the difference
  - If this is not possible (because the difference is prime) increase the maximum value by 1.
  - Use the found reasonable break size to generate the breaks array.
 
@@ -20,7 +20,8 @@ Workaround
 Improvement
  - Find out how many unique strings there are in the data and store them in a set.
  - We don't calculate reasonable breaks for strings since they are categories and can't be excluded.
- - Show all the categories on the axis in order of appearance. Otherwise, if the breaks array is defined use it to reference the placement on the axis.
+ - Require that the user define the categories in the breaks array for that axis. If the breaks array is unpopulated show the categories in alphabetical order.
+ - Show all the categories on the axis in order of appearance in the breaks array.
 
 ## Dates (1)
 
@@ -32,7 +33,7 @@ Workaround
  - Use the tooltip formatter to format the dates to the correct format
 
 Improvement
- - Ensure the dates are a number timestamp still
+ - Ensure the dates are a number timestamp
  - Give gg-chart a break formatter that takes the current value as input and returns the formatted date (much simpler)
  - Give gg-chart a tooltip formatter that takes the point as input and returns the formatted tooltip string
 
@@ -63,8 +64,8 @@ Accessibility is crucial to our goals at D2L for helping the world learn. Part o
      - Group type is excluded if only one legend is drawn.
    - Legend label aria labels read out the label value. `French Literature`
  - Keyboard navigation
-   - The chart is tab indexable, the chart title (h3) is indexible with h (the header navigation shortcut)
-   - Legends are tab indexable, the next legend title (h4) is indexible with h (the header navigation shortcut)
+   - The chart is tab indexable, the chart title (h3) is indexable with h (the header navigation shortcut)
+   - Legends are tab indexable, the next legend title (h4) is indexable with h (the header navigation shortcut)
    - Make the title header level over-ridable by allowing the user to provide a header using an html block. Or by introducing a gg-chart master config
    - The chart entires are arrow key navigable.
      - Left and right arrow goes to the next value in a grouping.
