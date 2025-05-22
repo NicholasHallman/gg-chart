@@ -1,3 +1,8 @@
+> **This repo (originally `BrightspaceUILabs/gg-chart`) was sent to the Graveyard on Thursday May 22, 2025 at 14:56:54 UTC by user `NicholasHallman`.**
+>
+> Reasoning: Unused inspiration sprint project
+
+
 # \<gg-chart>
 
 A lit-element component for creating data visualizations using the Grammar of Graphics.
