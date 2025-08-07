@@ -9,7 +9,8 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+  <div id="demo">
+  </div>
 
   <script type="module">
     import { css, html, render } from 'lit';
@@ -52,9 +53,7 @@
       }
     }
 
-    const handleTooltipPoint = (point) => {
-      return `${point.aggrid} students received ${point.grade}`
-    }
+    const handleTooltipPoint = (point) => `${point.aggrid} students received ${point.grade}`;
 
     const renderCharts = () => {
       const d = data();
