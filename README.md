@@ -1,6 +1,10 @@
 > **This repo (originally `BrightspaceUILabs/gg-chart`) was sent to the Graveyard on Thursday May 22, 2025 at 14:56:54 UTC by user `NicholasHallman`.**
 >
 > Reasoning: Unused inspiration sprint project
+> 
+> This is an un-archived copy maintained by Nicholas Hallman
+> 
+> Copyright D2L
 
 
 # \<gg-chart>
