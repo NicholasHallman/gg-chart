@@ -86,7 +86,7 @@
             stat="bin:10 ymean"
             tooltip="point, area"
 
-            @gg-chart-point-click="${({detail: {point}}) => console.log(`point clicked ${point['grade']} ${point['aggrid']}`)}"
+            @gg-chart-point-click="${({detail: {point}}) => console.log(`point clicked ${point.grade} ${point.aggrid}`)}"
 
             title="Final Grades"
             theme="daylight"
