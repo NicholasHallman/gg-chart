@@ -73,7 +73,7 @@
 
             title="Time in Content Vs Grade"
             theme="daylight"
-            width="400"
+
             height="250">
           </gg-chart>
           <br>
@@ -91,7 +91,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
 
@@ -107,7 +107,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
 
@@ -123,7 +123,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
         </div>
@@ -144,7 +144,7 @@
 
             title="Time in Content Vs Grade"
             theme="daylight"
-            width="400"
+
             height="250">
           </gg-chart>
           <br>
@@ -164,7 +164,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.break-y { transform: translateY(-7px); } .guide-y { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
 
@@ -181,7 +181,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
 
@@ -198,7 +198,7 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
+
             height="250">
           </gg-chart>
         </div>
@@ -216,7 +216,6 @@
 
             title="Time in Content Vs Grade"
             theme="daylight"
-            width="400"
             height="250">
           </gg-chart>
           <br>
@@ -234,7 +233,6 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.breaky { transform: translateY(-7px)`}"
-            width="400"
             height="250">
           </gg-chart>
 
@@ -250,7 +248,6 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
             height="250">
           </gg-chart>
 
@@ -266,13 +263,12 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
             height="250">
           </gg-chart>
         </div>
 
         <h2 style="font-family: lato"> Color Dimension </h2>
-        <div style="display: flex; flex-wrap: wrap;">
+        <div style="display: flex; max-width: 100vw;">
           <gg-chart
             data="${JSON.stringify(d)}"
             aes="grade, timeInContent, color(orgId)"
@@ -283,7 +279,6 @@
 
             title="Time in Content Vs Grade"
             theme="daylight"
-            width="400"
             height="250">
           </gg-chart>
 
@@ -299,7 +294,6 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
             height="250">
           </gg-chart>
 
@@ -316,7 +310,6 @@
             title="Final Grades"
             theme="daylight"
             style="${css`.guide-x { display: none; }`}"
-            width="400"
             height="250">
           </gg-chart>
 
@@ -334,7 +327,6 @@
           title="Final Grades"
           theme="daylight"
           style="${css`.guide-x { display: none; } .axis-x {display: none} .axis-y {display: none}`}"
-          width="400"
           height="250">
         </gg-chart>
         </div>

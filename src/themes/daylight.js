@@ -1,58 +1,58 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 
   :host {
-    --gg-color-1: #168FE6;
-    --gg-color-2: #8AD934;
-    --gg-color-3: #008EAB;
-    --gg-color-4: #E87511;
-    --gg-color-5: #9D1FD4;
-    --gg-color-6: #D40067;
-    --gg-color-7: #0057A3;
-    --gg-color-8: #8982FF;
-    --gg-color-9: #FFEF48;
-    --gg-color-10: #FF70B0;
-    --gg-color-11: #FFC102;
-    --gg-color-12: #E6ABFF;
-    --gg-color-13: #86509E;
-    --gg-color-14: #EE7030;
-    --gg-color-15: #D3E24A;
-    --gg-color-16: #2DE2C0;
-    --gg-color-17: #00B4D9;
-    --gg-color-18: #5D5BC0;
-    --gg-color-19: #F59036;
-    --gg-color-20: #99CB5F;
-    --gg-color-21: #5211FA;
+    --gg-color-1: #168fe6;
+    --gg-color-2: #8ad934;
+    --gg-color-3: #008eab;
+    --gg-color-4: #e87511;
+    --gg-color-5: #9d1fd4;
+    --gg-color-6: #d40067;
+    --gg-color-7: #0057a3;
+    --gg-color-8: #8982ff;
+    --gg-color-9: #ffef48;
+    --gg-color-10: #ff70b0;
+    --gg-color-11: #ffc102;
+    --gg-color-12: #e6abff;
+    --gg-color-13: #86509e;
+    --gg-color-14: #ee7030;
+    --gg-color-15: #d3e24a;
+    --gg-color-16: #2de2c0;
+    --gg-color-17: #00b4d9;
+    --gg-color-18: #5d5bc0;
+    --gg-color-19: #f59036;
+    --gg-color-20: #99cb5f;
+    --gg-color-21: #5211fa;
     --gg-color-22: #004489;
-    --gg-color-23: #00D2ED;
-    --gg-color-24: #00A490;
-    --gg-color-25: #2B8F44;
-    --gg-color-26: #8CDE8A;
-    --gg-color-27: #70FAE0;
-    --gg-color-28: #8FD1FF;
-    --gg-color-29: #2CBA9A;
-    --gg-color-30: #FF9EA0;
-    --gg-color-31: #FFDB8A;
-    --gg-color-32: #F5318F;
-    --gg-color-33: #E1FFB5;
-    --gg-color-34: #A7FAE7;
-    --gg-color-35: #C7FDFF;
-    --gg-color-36: #E9E6FF;
-    --gg-color-37: #6900A0;
-    --gg-color-38: #E9428D;
-    --gg-color-39: #FFE2DB;
-    --gg-color-40: #FFAB61;
+    --gg-color-23: #00d2ed;
+    --gg-color-24: #00a490;
+    --gg-color-25: #2b8f44;
+    --gg-color-26: #8cde8a;
+    --gg-color-27: #70fae0;
+    --gg-color-28: #8fd1ff;
+    --gg-color-29: #2cba9a;
+    --gg-color-30: #ff9ea0;
+    --gg-color-31: #ffdb8a;
+    --gg-color-32: #f5318f;
+    --gg-color-33: #e1ffb5;
+    --gg-color-34: #a7fae7;
+    --gg-color-35: #c7fdff;
+    --gg-color-36: #e9e6ff;
+    --gg-color-37: #6900a0;
+    --gg-color-38: #e9428d;
+    --gg-color-39: #ffe2db;
+    --gg-color-40: #ffab61;
 
-    --gg-color-tooltip-background: #494C4E;
-    --gg-color-tooltip-color: #F9FBFF;
+    --gg-color-tooltip-background: #494c4e;
+    --gg-color-tooltip-color: #f9fbff;
   }
 
   .axis {
     stroke: var(--d2l-color-galena);
     fill: transparent;
-    transition: transform .5s;
+    transition: transform 0.5s;
   }
   .guide {
     stroke: var(--d2l-color-mica);
@@ -60,16 +60,16 @@ export default css`
   }
 
   .point {
-    transition: cx .5s, cy .5s;
+    transition: cx 0.2s, cy 0.2s;
   }
   .point.line {
     stroke-width: 2;
   }
   .bar {
-    transition: height .5s,  width .5s, x .5s, y .5s;
+    transition: height 0.2s, width 0.2s, x 0.2s, y 0.2s;
   }
   .polar-bar {
-    transition: stroke-dasharray .5s;
+    transition: stroke-dasharray 0.2s;
     fill: transparent;
   }
   .axis-name {
@@ -88,7 +88,7 @@ export default css`
   p {
     font-family: 'Lato', sans-serif;
   }
-  .legend-container{
+  .legend-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

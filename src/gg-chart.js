@@ -74,30 +74,38 @@ class GGChart extends LitElement {
       // renderLabels TODO make labels useful.
     ];
     this.pipeline = new Pipeline(this);
-    this.width = 300;
-    this.height = 150;
     this._showTooltip = false;
   }
 
   connectedCallback() {
     this.chartStyles = themes[this.theme];
     this.legend = this.legend ?? '';
-
+    let changed = false;
     this.resizeObserver = new ResizeObserver(entries => {
-      if (this.width !== entries[0].contentRect.width) {
+      if (this.getAttribute('width') === null) {
         this.width = entries[0].contentRect.width;
+        changed = true;
       }
-      if (Math.floor(entries[0].contentRect.height - this.height) !== 48) {
-        console.log(Math.floor(entries[0].contentRect.height - this.height));
-        // this.height = entries[0].contentRect.height;
+      if (this.getAttribute('height') === null) {
+        this.height = entries[0].contentRect.height;
+        changed = true;
+      }
+      if (changed) {
+        // temporarely turn off transitions
+        [...this.shadowRoot.querySelectorAll('rect.bar')].forEach(rectElm => {
+          rectElm.classList.add('notransition');
+          setTimeout(() => {
+            rectElm.classList.remove('notransition');
+          }, 10);
+        });
       }
     });
     this.resizeObserver.observe(this);
     super.connectedCallback();
   }
 
-  update() {
-    super.update();
+  get ariaChartDescription() {
+    return `grammer of graphics chart. ${this.geom} chart with x axis title ${this.scale[0].name} and y axis title ${this.scale[1].name}`;
   }
 
   handleMouseLeave() {
@@ -124,19 +132,23 @@ class GGChart extends LitElement {
     this.transformedGrammar.sizing = sizing;
     this.transformedGrammar.chart = this;
     this.renderers.forEach(renderFunc => renderFunc(this.transformedGrammar));
-    const chartWidth =
-      this.legendCanvas.length > 0 && !this.legend.includes('hidden')
-        ? this.width - Math.min(this.width / 4, 100)
-        : this.width;
+    // const chartWidth =
+    //   this.legendCanvas.length > 0 && !this.legend.includes('hidden')
+    //     ? this.width - Math.min(this.width / 4, 100)
+    //     : this.width;
     return html`
       ${this.title &&
       html`<h3 class="d2l-heading-3 d2l-typography">${this.title}</h3>`}
       <div
         class="sbs"
-        style="width: ${this.width}px"
+        style="width: 100%"
         @mouseleave="${this.handleMouseLeave}"
       >
-        <svg width="${chartWidth}" height="${this.height}">
+        <svg
+          width="${this.width}"
+          height="${this.height}"
+          aria-label="${this.ariaChartDescription}"
+        >
           <style>
             ${this.chartStyles}
             ${this.style}
