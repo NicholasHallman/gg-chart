@@ -1,4 +1,4 @@
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement, nothing } from 'lit';
 import {
   bodyStandardStyles,
   heading3Styles,
@@ -113,6 +113,9 @@ class GGChart extends LitElement {
   }
 
   render() {
+    if (this.width === undefined || this.height === undefined) {
+      return nothing;
+    }
     this.canvas = [];
     this.legendCanvas = [];
     ({

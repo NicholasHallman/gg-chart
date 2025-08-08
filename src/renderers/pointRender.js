@@ -11,7 +11,19 @@ const parse = geom => {
   }, {});
 };
 
-const renderLines = (points, tooltip) =>
+const renderPointLabel = (p, aes, scale) => {
+  if (p.host.altPointAxeFunction) {
+    return p.host.altPointAxeFunction(p);
+  }
+  const specialEntries =
+    aes.specialEntries().length > 0
+      ? `${p[aes.specialEntries()[0][1]]} ${p[aes[1]]}`
+      : `${scale[1].name} ${p[aes[1]]}`;
+
+  return `${scale[0].name} ${p[aes[0]]}, ${specialEntries}`;
+};
+
+const renderLines = ({ points, tooltip }) =>
   svg`${repeat(
     points,
     (_, i) => `line-${i}`,
@@ -34,7 +46,12 @@ const renderLines = (points, tooltip) =>
     }
   )}`;
 
-const renderArea = (points, { innerHeight, innerWidth }, tooltip, coord) => {
+const renderArea = ({
+  points,
+  sizing: { innerHeight, innerWidth },
+  tooltip,
+  coord,
+}) => {
   const polyPoints = (() => {
     // initialize the array with the first point in the axis intersection
     const poly = [];
@@ -70,8 +87,20 @@ const renderArea = (points, { innerHeight, innerWidth }, tooltip, coord) => {
   `;
 };
 
-const renderPolarBar = (p, { innerWidth, innerHeight }, tooltip) => {
-  const { theta, r, width, geom, color = 'var(--gg-color-1)', offset } = p;
+const renderPolarBar = ({
+  p,
+  sizing: { innerWidth, innerHeight },
+  tooltip,
+}) => {
+  const {
+    theta,
+    r,
+    width,
+    geom,
+    color = 'var(--gg-color-1)',
+    offset,
+    host: { scale, aes },
+  } = p;
   const x = innerWidth / 2;
   const y = innerHeight / 2;
   const percentFull = Math.round((theta * 100) / (Math.PI * 2));
@@ -94,12 +123,14 @@ const renderPolarBar = (p, { innerWidth, innerHeight }, tooltip) => {
       r="${r + width / 2}"
       cx="${x}"
       cy="${y}"
-      style="stroke-width: ${barWidth};">
+      style="stroke-width: ${barWidth};"
+      aria-label="${renderPointLabel(p, aes, scale)}"
+      role="graphics-symbol">
     </circle>
   `;
 };
 
-const renderBar = (p, tooltip) => {
+const renderBar = ({ p, tooltip }) => {
   const {
     px,
     py,
@@ -123,11 +154,6 @@ const renderBar = (p, tooltip) => {
     width: !coord.flip ? barWidth : px,
     height: !coord.flip ? pHeight : barWidth,
   };
-  const specialEntries =
-    aes.specialEntries().length > 0
-      ? `${p[aes.specialEntries()[0][1]]} ${p[aes[1]]}`
-      : `${scale[1].name} ${p[aes[1]]}`;
-  const label = `${scale[0].name} ${p[aes[0]]}, ${specialEntries}`;
 
   return svg`
     <rect
@@ -141,14 +167,23 @@ const renderBar = (p, tooltip) => {
       width="${rect.width}"
       height="${rect.height}"
       fill="${color}"
-      aria-label="${label}"
+      aria-label="${renderPointLabel(p, aes, scale)}"
+      role="graphics-symbol"
       ></rect>
   `;
 };
 
-const renderPoint = (p, sizing, tooltip) => {
+const renderPoint = ({ p, tooltip }) => {
   const r = 4;
-  const { px, py, x, y, click, color = 'var(--gg-color-1)' } = p;
+  const {
+    px,
+    py,
+    x,
+    y,
+    click,
+    color = 'var(--gg-color-1)',
+    host: { aes, scale },
+  } = p;
   return svg`
     <circle
       @mouseenter="${e => (tooltip.point ? tooltip.point(e, p) : () => {})}"
@@ -161,35 +196,37 @@ const renderPoint = (p, sizing, tooltip) => {
       cy="${py}"
       r="${r}"
       data-x="${x}"
-      data-y="${y}">
+      data-y="${y}"
+      aria-label="${renderPointLabel(p, aes, scale)}"
+      role="graphics-symbol">
     </circle>
   `;
 };
 
-const iteratePoints = (func, points, sizing, tooltip) =>
+const iteratePoints = ({ func, points, sizing, tooltip }) =>
   svg`${repeat(
     points,
     (_, i) => `point-${i}`,
-    p => func(p, sizing, tooltip)
+    p => func({ p, sizing, tooltip })
   )}`;
 
 const render = (points, sizing, coord, geom, tooltip) => {
   if (coord.polar) {
     if (geom.includes('bar'))
-      return iteratePoints(renderPolarBar, points, sizing, tooltip);
+      return iteratePoints({ func: renderPolarBar, points, sizing, tooltip });
   }
   if (geom.includes('point'))
-    return iteratePoints(renderPoint, points, sizing, tooltip);
+    return iteratePoints({ func: renderPoint, points, sizing, tooltip });
   if (geom.includes('bar'))
-    return iteratePoints(renderBar, points, sizing, tooltip);
-  if (geom.includes('line')) return renderLines(points, sizing, tooltip);
+    return iteratePoints({ func: renderBar, points, sizing, tooltip });
+  if (geom.includes('line')) return renderLines({ points, tooltip });
   if (geom.includes('area')) {
     return [
-      renderArea(points, sizing, tooltip, coord),
-      renderLines(points, sizing, tooltip),
+      renderArea({ points, sizing, tooltip, coord }),
+      renderLines({ points, sizing, tooltip }),
     ];
   }
-  return iteratePoints(renderPolarBar, points, sizing, tooltip);
+  return iteratePoints({ func: renderPolarBar, points, sizing, tooltip });
 };
 
 export const renderPoints = ({

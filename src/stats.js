@@ -70,6 +70,13 @@ function group(data, aes, keyFunc) {
   return groups.flatMap(dataGroup => group(dataGroup, aes.splice(1), keyFunc));
 }
 
+function findType(axis, data) {
+  if (data.find(record => Number.isNaN(record[axis]))) {
+    return typeof '';
+  }
+  return typeof 1;
+}
+
 function calculateMax(axis, source) {
   return Math.ceil(
     source.reduce(
@@ -124,7 +131,10 @@ export const runStats = host => {
   const stats = {};
 
   aes.forEach(axis => {
+    // calculate the min and max if these are numbers
     stats[axis] = {};
+    stats[axis].type = findType(axis, data);
+    if (stats[axis].type === 'string') return;
     stats[axis].min = Math.min(0, calculateMin(axis, data));
     stats[axis].max = calculateMax(axis, data);
     stats[axis].parts = calcGroupParts(data, aes);

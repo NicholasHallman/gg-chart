@@ -268,7 +268,7 @@
         </div>
 
         <h2 style="font-family: lato"> Color Dimension </h2>
-        <div style="display: flex; max-width: 100vw;">
+        <div style="display: flex; max-width: 1200px;">
           <gg-chart
             data="${JSON.stringify(d)}"
             aes="grade, timeInContent, color(orgId)"
@@ -327,7 +327,8 @@
           title="Final Grades"
           theme="daylight"
           style="${css`.guide-x { display: none; } .axis-x {display: none} .axis-y {display: none}`}"
-          height="250">
+          height="250"
+          .altPointAxeFunction="${p => console.log("axe func", p)}">
         </gg-chart>
         </div>
 

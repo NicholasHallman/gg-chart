@@ -1,16 +1,15 @@
-import { css, html, LitElement } from "lit";
-
+import { css, html, LitElement } from 'lit';
 
 class Tooltip extends LitElement {
   static get properties() {
     return {
-      x: {attribute: true, type: Number},
-      y: {attribute: true, type: Number},
-      show: {attribute: true, type: Boolean},
-      top: {attribute: true, type: Number},
-      left: {attribute: true, type: Number},
-      message: {attribute: true, type: String}
-    }
+      x: { attribute: true, type: Number },
+      y: { attribute: true, type: Number },
+      show: { attribute: true, type: Boolean },
+      top: { attribute: true, type: Number },
+      left: { attribute: true, type: Number },
+      message: { attribute: true, type: String },
+    };
   }
 
   static get styles() {
@@ -26,7 +25,7 @@ class Tooltip extends LitElement {
         position: relative;
         background-color: var(--gg-color-tooltip-background);
         color: white;
-        transition: transform .2s;
+        transition: transform 0.2s;
         padding: 2px 10px;
         border-radius: 3px;
         max-width: 250px;
@@ -40,11 +39,13 @@ class Tooltip extends LitElement {
         background-color: var(--gg-color-tooltip-background);
         transform: translate(-50%, -50%) rotate(45deg);
         bottom: -10px;
-        left: 50%; right: 50%;
+        left: 50%;
+        right: 50%;
         z-index: -1;
       }
 
       .message {
+        font-family: 'Lato', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
         font-size: 12px;
         white-space: pre-line;
       }
@@ -53,11 +54,17 @@ class Tooltip extends LitElement {
 
   render() {
     return html`
-      <div class="gg-tooltip-container" style="transform: translate(${this.x}px, ${this.y}px); display: ${this.show ? 'block' : 'none'}">
+      <div
+        class="gg-tooltip-container"
+        style="transform: translate(${this.x}px, ${this.y}px); display: ${this
+          .show
+          ? 'block'
+          : 'none'}"
+      >
         <div class="tail"></div>
         <span class="message">${this.message}</span>
       </div>
-    `
+    `;
   }
 }
 
